@@ -27,20 +27,24 @@ const OtpVerification: React.FC = () => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      try {
-        const res = await fetch(`/api/users/get_user/${userId}`);
-        if (res.ok) {
-          const data = await res.json();
-          setUserData(data);
-        } else {
+      if (userId) {
+        try {
+          const res = await fetch(`/api/users/get_user/${userId}`);
+          if (res.ok) {
+            const data = await res.json();
+            setUserData(data);
+      } else {
           console.log('Error fetching user data:', res.status);
         }
       } catch (error) {
         console.log('Error fetching user data:', error);
       }
+    }else {
+      console.log (' User Id is missing')
+    }
     };
     fetchUser();
-  }, [params.ph]);
+  }, [userId, params.ph]);
 
   
 
@@ -56,13 +60,22 @@ const OtpVerification: React.FC = () => {
     }
   };
 
+  //Resend OTP
+
   const handleResendOtp = async () => {
-    setSeconds(60);
- sendOtp(userData._id);
+    if(userData._id) {
+      setSeconds(60);
+      sendOtp(userData._id);
+    }else {
+      console.log('User data is not available.')
+    }  
 
   };
 
+ // Sending OTP
+
   const sendOtp = async(id: string)=>{
+    
     try {
         const recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha', {});
         const confirmationResult = await signInWithPhoneNumber(auth, "+"+ userData.phone, recaptchaVerifier);
@@ -72,8 +85,7 @@ const OtpVerification: React.FC = () => {
             const otp: string = confirmationResult.verificationId;
             const response = await axios.post("/api/users/update_otp", {
                 otp: otp,
-                id: id
-            })
+                id: id           })
             if(response){
                 navigate(`/otp_verify?userId=${id}`);
             }
@@ -88,6 +100,7 @@ const OtpVerification: React.FC = () => {
 }
 
 
+// Otp varification
 
   const handleVerifyOtp = async () => {
     const enteredOtp = otp.join('');
@@ -103,9 +116,11 @@ const OtpVerification: React.FC = () => {
       const verifyResult = await signInWithCredential(auth, credential);
       console.log('Verification result:', verifyResult);
 
-      // Post-verification logic here
-    //  toast('OTP verification successful!');
+   
+    // OTP verification 
+
     const res = await axios.get(`/api/users/verify_user/${userData._id}`);
+    
 
     console.log(res.data)
 

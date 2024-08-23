@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 interface UserData {
     name: string;
+    role: string;
     age: number;
     bloodGroup: string;
     email: string;
@@ -107,6 +108,10 @@ function Profile() {
             <div className='flex justify-center'>
                 <div className='w-2/4 text-right font-semibold text-gray-800 pr-8'>Full Name:</div>
                 <div className='w-2/4 text-left text-gray-600 pl-8'>{userData.name}</div>
+            </div>
+            <div className='flex justify-center'>
+                <div className='w-2/4 text-right font-semibold text-gray-800 pr-8'>Role:</div>
+                <div className='w-2/4 text-left text-gray-600 pl-8'>{userData.role}</div>
             </div>
             <div className='flex justify-center items-center'>
                 <div className='w-2/4 text-right font-semibold text-gray-800 pr-8'>Age:</div>

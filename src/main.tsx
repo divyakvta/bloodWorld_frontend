@@ -13,6 +13,8 @@ import { Provider } from 'react-redux'
 import Profilepage from './pages/Profilepage.tsx'
 import EditProfile from './components/EditProfile.tsx'
 import DonorList from './components/DonorList.tsx'
+import AdminDashboard from './pages/AdminDashboard.tsx'
+import Login from './components/admin/Login.tsx'
 
 
 
@@ -27,7 +29,12 @@ const router = createBrowserRouter(
       <Route index={true} path='/profile' element={ <Profilepage />} />
       <Route index={true} path='/editProfile' element={ <EditProfile />}/>
       <Route index={true} path='/search_donor' element={ <DonorList />}/>
+
+      {/* Admin Routes */}
+      <Route index={true} path='/admin' element={<AdminDashboard />} />
+      <Route index={true} path='/admin_login' element={<Login />} />
     </Route>
+    
   )
 )
 

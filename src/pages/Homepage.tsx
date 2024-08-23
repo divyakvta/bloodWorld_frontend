@@ -1,5 +1,6 @@
 
 
+import About from '../components/About';
 import Header from '../components/header/Header'
 import Hero from '../components/Hero';
 
@@ -9,7 +10,7 @@ function Homepage() {
     <div className=''>
       <Header />
       <Hero />
- 
+      <About />
     </div>
   )
 }

@@ -81,6 +81,10 @@ function EditProfile() {
         }
     };
 
+    const handleCancel = () => {
+        navigate('/profile');
+    };
+
 
   return (
     <div>
@@ -171,14 +175,21 @@ function EditProfile() {
                     </div>
 
                     {/* Submit Button */}
-                    <div className="flex justify-end mt-6">
-                        <button
-                            type="submit"
-                            className="flex items-center justify-center w-40 p-3 text-white bg-gradient-to-r from-red-700 via-red-600 to-red-500 rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
-                        >
-                            Submit
-                            <FaUser className="ml-2" />
-                        </button>
+                    <div className="flex justify-end mt-6 space-x-4">
+                          <button
+                              type="button"
+                              onClick={handleCancel}
+                              className="flex items-center justify-center w-40 p-3 text-white bg-gradient-to-r from-red-700 via-red-600 to-red-500 rounded-lg shadow-md hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-500"
+                          >
+                              Cancel
+                          </button>
+                          <button
+                              type="submit"
+                              className="flex items-center justify-center w-40 p-3 text-white bg-gradient-to-r from-red-700 via-red-600 to-red-500 rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+                          >
+                              Submit
+                              <FaUser className="ml-2" />
+                          </button>
                     </div>
                 </form>
             </div>

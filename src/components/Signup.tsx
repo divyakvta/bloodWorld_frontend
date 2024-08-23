@@ -133,11 +133,12 @@ function Signup() {
             await authValidationSchema.validate(authData, { abortEarly: false });
             setErrors({});
             const response = await axios.post('/api/users/signup', {...personalData, ...authData});
-            console.log(response.data)
+            console.log(response.data.userData._id)
             if(response.data.error){
                 return toast.error(response.data.error);
             }
-            await sendOtp(response.data._id);
+
+             sendOtp(response.data.userData._id);
         }catch (err) {
             if (err instanceof Yup.ValidationError) {
                 const validationErrors: FormErrors = {};
@@ -151,26 +152,89 @@ function Signup() {
         }
     };
 
-    const sendOtp = async(id: string)=>{
-        try {
-            const recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha', {});
-            const confirmationResult = await signInWithPhoneNumber(auth, "+"+ authData.phone, recaptchaVerifier);
-              console.log(confirmationResult);
+    // const sendOtp = async (id: any) => {
+    //     try {
+    //         const recaptchaVerifier = new RecaptchaVerifier(auth,'recaptcha', {});
+    
+    //         const confirmationResult = await signInWithPhoneNumber(auth, `+${authData.phone}`, recaptchaVerifier);
+    
+    //         if (confirmationResult && confirmationResult.verificationId) {
+    //             const otp: string = confirmationResult.verificationId;
+    
+    //             // Update the request URL to include the user ID
+    //             const response = await axios.post(`/api/users/update_otp/${id}`, {
+    //                 otp: otp
+    //             });
+    
+    //             if (response) {
+    //                 navigate(`/otp_verify?userId=${id}`);
+    //             }
+    //         } else {
+    //             throw new Error('Verification ID is missing');
+    //         }
+    //     } catch (error) {
+    //         console.error('Error sending OTP:', error);
+            
+    //     }
+    // };
+    
 
-              if(confirmationResult){
-                const otp: string = confirmationResult.verificationId;
-                const response = await axios.post("/api/users/update_otp", {
-                    otp: otp,
-                    id: id
-                })
-                if(response){
-                    navigate(`/otp_verify?userId=${id}`);
+    const sendOtp = async (id: string) => {
+        try {
+
+            console.log(id);
+            console.log(id);
+
+            // Ensure the container exists if you're using a visible reCAPTCHA
+            const recaptchaContainerId = 'recaptcha'; // Update if using a different ID
+            const recaptchaContainer = document.getElementById(recaptchaContainerId);
+    
+            if (!recaptchaContainer) {
+                throw new Error('Recaptcha container is missing');
+            }
+    
+            // Initialize RecaptchaVerifier
+            const recaptchaVerifier = new RecaptchaVerifier(auth, recaptchaContainerId, {
+                size: 'invisible', // or 'normal' to display the widget
+                callback: (response: any) => {
+                    console.log('reCAPTCHA solved', response);
+                },
+                'expired-callback': () => {
+                    console.log('reCAPTCHA expired');
                 }
-              }
-          } catch (error) {
-            console.log('Error resending OTP:', error);
-          }
-    }
+            });
+    
+            // Render the reCAPTCHA widget
+            await recaptchaVerifier.render();
+    
+            // Send OTP
+            const confirmationResult = await signInWithPhoneNumber(auth, `+${authData.phone}`, recaptchaVerifier);
+            console.log(confirmationResult)
+    
+            if (confirmationResult && confirmationResult.verificationId) {
+                const otp: string = confirmationResult.verificationId;
+    
+                // Update the request URL to include the user ID
+                const response = await axios.post(`/api/users/update_otp/${id}`, {
+                    otp: otp
+                });
+    
+                // Check if response contains the expected data
+                if (response) {
+                    navigate(`/otp_verify?userId=${id}`);
+                } else {
+                    throw new Error('Failed to update OTP');
+                }
+            } else {
+                throw new Error('Verification ID is missing');
+            }
+        } catch (error) {
+            console.error('Error sending OTP:', error);
+            // Optionally, display a user-friendly message or notification
+        }
+    };
+
+
 
 
     return (
