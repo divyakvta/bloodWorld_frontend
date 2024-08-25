@@ -1,8 +1,9 @@
 
 
-import About from '../components/About';
-import Header from '../components/header/Header'
-import Hero from '../components/Hero';
+import About from '../components/user/About';
+import Footer from '../components/user/Footer';
+import Header from '../components/user/header/Header'
+import Hero from '../components/user/Hero';
 
 
 function Homepage() {
@@ -11,6 +12,7 @@ function Homepage() {
       <Header />
       <Hero />
       <About />
+      <Footer />
     </div>
   )
 }

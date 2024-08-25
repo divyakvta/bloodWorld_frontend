@@ -1,6 +1,6 @@
 
-import Header from '../components/header/Header'
-import Profile from '../components/Profile'
+import Header from '../components/user/header/Header'
+import Profile from '../components/user/Profile'
 
 
 function Profilepage() {

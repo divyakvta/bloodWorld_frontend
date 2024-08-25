@@ -5,7 +5,7 @@ import { Menu, X } from 'lucide-react'
 import { FaUser } from "react-icons/fa";
 import { useDispatch, useSelector } from 'react-redux';
 import { RiLogoutBoxLine } from "react-icons/ri";
-import { signoutSuccess } from '../../redux/userSlice';
+import { signoutSuccess } from '../../../redux/userSlice';
 
 
 

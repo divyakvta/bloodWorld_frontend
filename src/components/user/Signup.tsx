@@ -3,7 +3,7 @@ import axios from 'axios';
 import * as Yup from 'yup';
 import { FormEvent, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { auth } from '../firebase/firebase.ts';
+import { auth } from '../../firebase/firebase.ts';
 import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
@@ -151,42 +151,14 @@ function Signup() {
             }
         }
     };
-
-    // const sendOtp = async (id: any) => {
-    //     try {
-    //         const recaptchaVerifier = new RecaptchaVerifier(auth,'recaptcha', {});
-    
-    //         const confirmationResult = await signInWithPhoneNumber(auth, `+${authData.phone}`, recaptchaVerifier);
-    
-    //         if (confirmationResult && confirmationResult.verificationId) {
-    //             const otp: string = confirmationResult.verificationId;
-    
-    //             // Update the request URL to include the user ID
-    //             const response = await axios.post(`/api/users/update_otp/${id}`, {
-    //                 otp: otp
-    //             });
-    
-    //             if (response) {
-    //                 navigate(`/otp_verify?userId=${id}`);
-    //             }
-    //         } else {
-    //             throw new Error('Verification ID is missing');
-    //         }
-    //     } catch (error) {
-    //         console.error('Error sending OTP:', error);
-            
-    //     }
-    // };
     
 
     const sendOtp = async (id: string) => {
         try {
 
             console.log(id);
-            console.log(id);
-
-            // Ensure the container exists if you're using a visible reCAPTCHA
-            const recaptchaContainerId = 'recaptcha'; // Update if using a different ID
+           
+            const recaptchaContainerId = 'recaptcha'; 
             const recaptchaContainer = document.getElementById(recaptchaContainerId);
     
             if (!recaptchaContainer) {
@@ -195,7 +167,7 @@ function Signup() {
     
             // Initialize RecaptchaVerifier
             const recaptchaVerifier = new RecaptchaVerifier(auth, recaptchaContainerId, {
-                size: 'invisible', // or 'normal' to display the widget
+                size: 'invisible', 
                 callback: (response: any) => {
                     console.log('reCAPTCHA solved', response);
                 },
@@ -230,7 +202,7 @@ function Signup() {
             }
         } catch (error) {
             console.error('Error sending OTP:', error);
-            // Optionally, display a user-friendly message or notification
+            
         }
     };
 

@@ -21,7 +21,7 @@ interface FormErrors {
   password?: string;
 }
 
-const Login: React.FC = () => {
+function AdminLogin() {
   const [formData, setFormData] = useState<FormData>({
     email: "",
     password: "",
@@ -52,7 +52,7 @@ const Login: React.FC = () => {
       if (response.data && response.data.accessToken) {
         setAccessToken(response.data.accessToken); // Store access token in state
         toast.success('Logged in successfully!');
-        navigate('/admin'); // Redirect to admin page
+        navigate('/admin_dash'); // Redirect to admin page
       }
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
@@ -145,4 +145,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+export default AdminLogin;

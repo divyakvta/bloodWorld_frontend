@@ -12,6 +12,7 @@ function AdminHeader() {
             console.log(error)
         }
     }
+
   return (
     <aside className="w-full md:w-1/4 lg:w-1/5 bg-gradient-to-r from-red-700 via-red-600 to-red-500 text-white text-lg font-medium flex flex-col justify-between">
     <div>
@@ -19,15 +20,15 @@ function AdminHeader() {
         <img src="logo.png" alt="Logo" className="w-12 h-12 rounded-full" />
       </div>
       <nav className="flex flex-col p-10 space-y-4 ">
-        <a href="#" className="flex items-center space-x-2 hover:bg-red-600 p-2 rounded">
+        <a href="/admin" className="flex items-center space-x-2 hover:bg-red-600 p-2 rounded">
           <FontAwesomeIcon icon={faHome} />
           <span>Dashboard</span>
         </a>
-        <a href="#" className="flex items-center space-x-2 hover:bg-red-600 p-2 rounded">
+        <a href="/admin/donors_list" className="flex items-center space-x-2 hover:bg-red-600 p-2 rounded">
           <FontAwesomeIcon icon={faUsers} />
           <span>Donors</span>
         </a>
-        <a href="#" className="flex items-center space-x-2 hover:bg-red-600 p-2 rounded">
+        <a href="/admin/recipients_list" className="flex items-center space-x-2 hover:bg-red-600 p-2 rounded">
           <FontAwesomeIcon icon={faUserFriends} />
           <span>Recipients</span>
         </a>
@@ -47,4 +48,4 @@ function AdminHeader() {
 );
 }
 
-export default AdminHeader
+export default AdminHeader;

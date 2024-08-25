@@ -1,6 +1,6 @@
 import React from 'react';
 
-function MainContent() {
+function Main() {
   return (
     <main className="flex-1 p-20 bg-gray-100">
       <div className="flex flex-col lg:flex-row lg:justify-between space-y-4 lg:space-y-0 lg:space-x-20 text-white">
@@ -32,4 +32,4 @@ function MainContent() {
   );
 }
 
-export default MainContent;
+export default Main;

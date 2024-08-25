@@ -2,7 +2,7 @@ import { signInWithPhoneNumber } from 'firebase/auth';
 import { RecaptchaVerifier } from 'firebase/auth';
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { auth } from '../firebase/firebase';
+import { auth } from '../../firebase/firebase';
 import { PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
 import axios from 'axios';
 import { toast } from  'react-hot-toast';
