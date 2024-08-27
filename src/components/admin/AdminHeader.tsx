@@ -20,7 +20,7 @@ function AdminHeader() {
         <img src="logo.png" alt="Logo" className="w-12 h-12 rounded-full" />
       </div>
       <nav className="flex flex-col p-10 space-y-4 ">
-        <a href="/admin" className="flex items-center space-x-2 hover:bg-red-600 p-2 rounded">
+        <a href="/admin_dash" className="flex items-center space-x-2 hover:bg-red-600 p-2 rounded">
           <FontAwesomeIcon icon={faHome} />
           <span>Dashboard</span>
         </a>
@@ -32,7 +32,7 @@ function AdminHeader() {
           <FontAwesomeIcon icon={faUserFriends} />
           <span>Recipients</span>
         </a>
-        <a href="#" className="flex items-center space-x-2 hover:bg-red-600 p-2 rounded">
+        <a href="/admin/poster" className="flex items-center space-x-2 hover:bg-red-600 p-2 rounded">
           <FontAwesomeIcon icon={faImages} />
           <span>Posters</span>
         </a>

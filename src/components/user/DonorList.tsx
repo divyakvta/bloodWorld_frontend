@@ -2,8 +2,11 @@
 import { useEffect, useState } from 'react';
 import Header from './header/Header'
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
 
 interface User {
+    _id?: string;
     name?: string;
     bloodGroup: string;
     city?: string;
@@ -11,7 +14,6 @@ interface User {
     isActive?: boolean
 }
 function DonorList() {
-
     const [users, setUsers] = useState<User[]>([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [filterCriteria, setFilterCriteria] = useState<User>({
@@ -19,12 +21,14 @@ function DonorList() {
         district: ''
     });
 
-
+    const navigate = useNavigate();
+    const isLoggedIn = true;
 
     useEffect(() => {
         const fetchUsers = async () => {
             try {
                 const response = await axios.get('/api/users/get_users');
+                console.log(response.data)
                 setUsers(response.data);
             } catch (error) {
                 console.log('Error fetching users:', error);
@@ -45,6 +49,15 @@ function DonorList() {
                 user.district.toLowerCase().includes(searchLower))
         );
     });
+
+    const handleScheduleDonation = (userId: string) => {
+        console.log(userId)
+        if(isLoggedIn) {
+            navigate(`/schedule-donation/${ userId }`);
+        }else {
+            alert('Please log in to schedule a donation')
+        }
+    }
 
     return (
         <div>
@@ -138,6 +151,12 @@ function DonorList() {
                                     Call
                                 </button>
                             </div>
+                            <button
+                                className='bg-gradient-to-r from-red-700 via-red-600 to-red-500 hover:bg-red-800 text-white font-bold py-2 px-4 rounded-lg'
+                                onClick={() => handleScheduleDonation(user._id!)}  // The exclamation mark asserts that user.id is defined
+                            >
+                                Schedule Donation
+                            </button>
                         </div>
                     </div>
                 ))}

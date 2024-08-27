@@ -14,10 +14,12 @@ import EditProfile from './components/user/EditProfile.tsx'
 import DonorList from './components/user/DonorList.tsx'
 import AdminDashboard from './pages/AdminDashboard.tsx'
 import Login from './components/user/Login.tsx'
-import About from './components/user/About.tsx'
 import DonorListPage from './pages/DonorListPage.tsx'
 import AdminLogin from './components/admin/AdminLogin.tsx'
 import RecipientListPage from './pages/RecipientListPage.tsx'
+import PosterPage from './pages/PosterPage.tsx'
+import AboutPage from './pages/AboutPage.tsx'
+import Schedule from './components/user/Schedule.tsx'
 
 
 
@@ -27,18 +29,20 @@ const router = createBrowserRouter(
       <Route index={true} path='/' element={<Homepage />} />
       <Route index={true} path='/register' element={<Signuppage />} />
       <Route index={true} path='/login' element={<Login />} />
-      <Route index={true} path='/about' element={<About/>} />
+      <Route index={true} path='/about' element={<AboutPage />} />
       <Route index={true} path='/otp_verify' element={<OtpVerification />} />
       <Route index={true} path='/home' element={<Homepage />} />
       <Route index={true} path='/profile' element={ <Profilepage />} />
       <Route index={true} path='/editProfile' element={ <EditProfile />}/>
       <Route index={true} path='/search_donor' element={ <DonorList />}/>
+      <Route index={true} path='/schedule-donation/:userId' element={ <Schedule />}/>
 
       {/* Admin Routes */}
       <Route index={true} path='/admin' element={<AdminLogin />} />
       <Route index={true} path='/admin_dash' element={<AdminDashboard />} />
       <Route index={true} path='/admin/donors_list' element={<DonorListPage />} />
       <Route index={true} path='/admin/recipients_list' element={<RecipientListPage />} />
+      <Route index={true} path='/admin/poster' element={<PosterPage />} />
     </Route>
     
   )
