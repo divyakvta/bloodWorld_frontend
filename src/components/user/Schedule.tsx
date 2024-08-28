@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import Header from './header/Header';
+import { useSelector } from 'react-redux';
 
 
 
@@ -12,17 +13,21 @@ const Schedule: React.FC = () => {
     const [requestType, setRequestType] = useState<'normal' | 'urgent'>('normal');
     const navigate = useNavigate();
     const { userId } = useParams<{ userId: string }>();
-   
+    const { currentUser } = useSelector((state: any)=> state.user);
+    const protocol = window.location.protocol;
+    const host = window.location.host;
+    const link = `${protocol}//${host}/schedule-confirmation?rec=${currentUser._id}&don=${userId}&date=${date}`;
 
     const handleSubmit = async () => {
         try {
             const response = await axios.post('/api/users/send_message', {
                 userId,
                 date,
-                requestType
+                requestType,
+                link
             });
 
-            if (response.data.success) {
+            if (response.data.success){
                 toast.success('Message sent successfully!');
                 navigate('/search_donor');
             } else {

@@ -73,12 +73,12 @@ function Recipients() {
                 {filteredRecipients.length > 0 ? (
                   filteredRecipients.map(recipient => (
                     <tr key={recipient._id}>
-                      <td className="px-4 py-2 border-b text-sm text-center">{recipient._id}</td>
-                      <td className="px-4 py-2 border-b text-sm text-center">{recipient.name}</td>
-                      <td className="px-4 py-2 border-b text-sm text-center">{recipient.bloodGroup}</td>
-                      <td className="px-4 py-2 border-b text-sm text-center">{recipient.city}</td>
-                      <td className="px-4 py-2 border-b text-sm text-center">{recipient.createdAt}</td>
-                      <td className="px-4 py-2 border-b text-sm text-center">{recipient.lastDonated}</td>
+                      <td className="px-4 py-2 border-b text-sm text-center">{recipient?._id}</td>
+                      <td className="px-4 py-2 border-b text-sm text-center">{recipient?.name}</td>
+                      <td className="px-4 py-2 border-b text-sm text-center">{recipient?.bloodGroup}</td>
+                      <td className="px-4 py-2 border-b text-sm text-center">{recipient?.city}</td>
+                      <td className="px-4 py-2 border-b text-sm text-center">{new Date(recipient?.createdAt).toLocaleDateString()}</td>
+                      <td className="px-4 py-2 border-b text-sm text-center">{new Date(recipient?.lastDonated).toLocaleDateString()}</td>
                     </tr>
                   ))
                 ) : (

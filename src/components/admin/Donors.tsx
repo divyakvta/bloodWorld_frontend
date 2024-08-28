@@ -97,8 +97,8 @@ function Donors() {
                       <td className="px-4 py-2 border-b text-sm text-center">{donor.name}</td>
                       <td className="px-4 py-2 border-b text-sm text-center">{donor.bloodGroup}</td>
                       <td className="px-4 py-2 border-b text-sm text-center">{donor.city}</td>
-                      <td className="px-4 py-2 border-b text-sm text-center">{donor.createdAt}</td>
-                      <td className="px-4 py-2 border-b text-sm text-center">{donor.lastDonated}</td>
+                      <td className="px-4 py-2 border-b text-sm text-center">{new Date(donor.createdAt).toLocaleDateString() }</td>
+                      <td className="px-4 py-2 border-b text-sm text-center">{new Date(donor.lastDonated).toLocaleDateString()}</td>
                       <td className="px-4 py-2 border-b text-sm text-center">
                         {donor.isActive ? (
                           <a

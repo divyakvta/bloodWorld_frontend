@@ -15,7 +15,8 @@ interface UserData {
     city: string;
     district: string;
     isActive: boolean;
-    lastDonated: string;
+    lastDonated: number;
+    nextDonation: number;
 }
 
 function Profile() {
@@ -134,9 +135,21 @@ function Profile() {
                 <div className='w-2/4 text-left text-gray-600 pl-8'>{userData.district}</div>
             </div>
             <div className='flex justify-center items-center'>
-                <div className='w-2/4 text-right font-semibold text-gray-800 pr-8'>Last Donated Date:</div>
-                <div className='w-2/4 text-left text-gray-600 pl-8'>{userData.lastDonated}</div>
-            </div>
+  <div className='w-2/4 text-right font-semibold text-gray-800 pr-8'>Last Donated Date:</div>
+  <div className='w-2/4 text-left text-gray-600 pl-8'>
+    {userData.lastDonated ? new Date(userData.lastDonated).toLocaleDateString() : 'No donation date available'}
+  </div>
+</div>
+
+{userData?.nextDonation && (
+  <div className='flex justify-center items-center'>
+    <div className='w-2/4 text-right font-semibold text-gray-800 pr-8'>Next Donation Date:</div>
+    <div className='w-2/4 text-left text-gray-600 pl-8'>
+      {new Date(userData?.nextDonation).toLocaleDateString()}
+    </div>
+  </div>
+)}
+
             <div className='flex justify-center items-center'>
                 <div className='w-2/4 text-right font-semibold text-gray-800 pr-8'>Status:</div>
                 <div className='w-2/4 text-left text-gray-600 pl-8'>{activateUser ? 'Active' : 'Inactive'}</div>

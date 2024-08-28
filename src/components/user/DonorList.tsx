@@ -1,9 +1,7 @@
-
 import { useEffect, useState } from 'react';
-import Header from './header/Header'
+import Header from './header/Header';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
 
 interface User {
     _id?: string;
@@ -11,8 +9,9 @@ interface User {
     bloodGroup: string;
     city?: string;
     district: string;
-    isActive?: boolean
+    isActive?: boolean;
 }
+
 function DonorList() {
     const [users, setUsers] = useState<User[]>([]);
     const [searchTerm, setSearchTerm] = useState('');
@@ -22,13 +21,13 @@ function DonorList() {
     });
 
     const navigate = useNavigate();
-    const isLoggedIn = true;
+    const isLoggedIn = true; 
 
     useEffect(() => {
         const fetchUsers = async () => {
             try {
                 const response = await axios.get('/api/users/get_users');
-                console.log(response.data)
+                console.log(response.data);
                 setUsers(response.data);
             } catch (error) {
                 console.log('Error fetching users:', error);
@@ -50,24 +49,25 @@ function DonorList() {
         );
     });
 
-    const handleScheduleDonation = (userId: string) => {
-        console.log(userId)
-        if(isLoggedIn) {
-            navigate(`/schedule-donation/${ userId }`);
-        }else {
-            alert('Please log in to schedule a donation')
+    const handleScheduleDonation = (userId?: string) => {
+
+        if (isLoggedIn) {
+            navigate(`/schedule-donation/${userId}`);
+        } else {
+            alert('Please log in to schedule a donation.');
+            navigate('/login');
         }
-    }
+    };
 
     return (
         <div>
             <Header />
-            <div className='flex justify-center mb-4 space-x-2'>
+            <div className="flex justify-center mb-4 space-x-2">
                 <div className="relative">
                     <input
                         type="text"
                         placeholder="Search"
-                        className='border rounded pl-10 pr-4 py-2 mr-2'
+                        className="border rounded pl-10 pr-4 py-2 mr-2"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
@@ -79,28 +79,27 @@ function DonorList() {
                 </div>
 
                 <select
-                    className='border rounded p-2'
+                    className="border rounded p-2"
                     value={filterCriteria.bloodGroup}
                     onChange={(e) => setFilterCriteria({ ...filterCriteria, bloodGroup: e.target.value })}
                 >
-                    <option value=''>All Blood Groups</option>
-                    <option value='A+'>A+</option>
-                    <option value='A-'>A-</option>
-                    <option value='B+'>B+</option>
-                    <option value='B-'>B-</option>
-                    <option value='AB+'>AB+</option>
-                    <option value='AB-'>AB-</option>
-                    <option value='O+'>O+</option>
-                    <option value='O-'>O-</option>
+                    <option value="">All Blood Groups</option>
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
                 </select>
 
                 <select
-                    className='border rounded p-2'
+                    className="border rounded p-2"
                     value={filterCriteria.district}
                     onChange={(e) => setFilterCriteria({ ...filterCriteria, district: e.target.value })}
                 >
-                    <option value=''>All Districts</option>
-                    <option value="">Select District</option>
+                    <option value="">All Districts</option>
                     <option value="Thiruvananthapuram">Thiruvananthapuram</option>
                     <option value="Kollam">Kollam</option>
                     <option value="Pathanamthitta">Pathanamthitta</option>
@@ -115,56 +114,52 @@ function DonorList() {
                     <option value="Wayanad">Wayanad</option>
                     <option value="Kannur">Kannur</option>
                     <option value="Kasargod">Kasargod</option>
-
                 </select>
 
                 <button
                     onClick={() => setFilterCriteria({ bloodGroup: '', district: '' })}
-                    className='bg-red-600 hover:bg-red-900 text-white font-bold py-2 px-4 rounded-lg'>
+                    className="bg-red-600 hover:bg-red-900 text-white font-bold py-2 px-4 rounded-lg"
+                >
                     Clear Filters
                 </button>
             </div>
 
-
-
             {/* Donor list container */}
-            <div className='container w-1/2 min-h-screen mx-auto py-8 bg-gray-100 rounded-lg'>
-                <div className='flex justify-center items-center'>
-                    <h2 className='w-60 text-2xl text-center font-bold mb-4 bg-gradient-to-r from-red-800 via-red-600 to-red-500 p-1 rounded-full text-white'>
+            <div className="container w-1/2 min-h-screen mx-auto py-8 bg-gray-100 rounded-lg">
+                <div className="flex justify-center items-center">
+                    <h2 className="w-60 text-2xl text-center font-bold mb-4 bg-gradient-to-r from-red-800 via-red-600 to-red-500 p-1 rounded-full text-white">
                         Donors List
                     </h2>
                 </div>
-                {filteredUsers.map((user, index) => (
-                    <div className='flex justify-center' key={index}>
-                        <div className=' w-full bg-white rounded-xl shadow p-4 m-5'>
-                            <h3 className='text-xl font-semibold mb-2'>{user.name}</h3>
-                            <p >Blood Group: {user.bloodGroup}</p>
-                            <p >Location: {user.city}, {user.district}</p>
-                            <p >
+                {filteredUsers.map((user) => (
+                    <div className="flex justify-center" key={user._id}>
+                        <div className="w-full bg-white rounded-xl shadow p-4 m-5">
+                            <h3 className="text-xl font-semibold mb-2">{user.name}</h3>
+                            <p>Blood Group: {user.bloodGroup}</p>
+                            <p>Location: {user.city}, {user.district}</p>
+                            <p>
                                 Status: {user.isActive ? 'Active' : 'Inactive'}
                             </p>
-                            <div className='flex justify-end  space-x-2'>
-                                <button className=' bg-green-600 hover:bg-green-900 text-white font-bold py-2 px-4 rounded-lg'>
+                            <div className="flex justify-end space-x-2">
+                                <button className="bg-green-600 hover:bg-green-900 text-white font-bold py-2 px-4 rounded-lg">
                                     Chat
                                 </button>
-                                <button className='bg-green-600 hover:bg-green-900 text-white font-bold py-2 px-4 rounded-lg'>
+                                <button className="bg-green-600 hover:bg-green-900 text-white font-bold py-2 px-4 rounded-lg">
                                     Call
                                 </button>
                             </div>
                             <button
-                                className='bg-gradient-to-r from-red-700 via-red-600 to-red-500 hover:bg-red-800 text-white font-bold py-2 px-4 rounded-lg'
-                                onClick={() => handleScheduleDonation(user._id!)}  // The exclamation mark asserts that user.id is defined
+                                className="bg-gradient-to-r from-red-700 via-red-600 to-red-500 hover:bg-red-800 text-white font-bold py-2 px-4 rounded-lg mt-2"
+                                onClick={() => handleScheduleDonation(user._id!)}
                             >
                                 Schedule Donation
                             </button>
                         </div>
                     </div>
                 ))}
-
             </div>
         </div>
     );
-
 }
 
-export default DonorList
+export default DonorList;

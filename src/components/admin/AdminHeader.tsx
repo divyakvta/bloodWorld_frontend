@@ -7,7 +7,7 @@ function AdminHeader() {
 
     const handleLogout = ()=>{
         try {
-            navigate('/admin_login')
+            navigate('/admin')
         } catch (error) {
             console.log(error)
         }
