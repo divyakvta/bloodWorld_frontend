@@ -1,9 +1,15 @@
 import workflow from '/src/assets/WF.png';
+import bloodTypeChart from '/src/assets/bloodchart.jpg'
 import poster6 from '/src/assets/poster6.png';
-import bloodTypeChart from '/src/assets/bloodTypeChart.png'; // Assuming you have this image
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
+
+
+
 
 function About() {
+
   return (
+    <>
     <div className="container mx-auto flex flex-col items-center min-h-screen space-y-8 p-4">
       <div className="w-full max-w-4xl space-y-4">
         <h1 className="text-left font-medium text-2xl">How to get Blood</h1>
@@ -17,7 +23,7 @@ function About() {
             />
             <img 
               src={poster6} 
-              className="absolute top-1/2 left-1/2 w-1/3 h-auto transform -translate-x-1/2 -translate-y-1/2" 
+              className="absolute top-1/2 left-1/2 w-1/3 h-auto transform -translate-x-1/2 -translate-y-1/2 mt-24" 
               alt="Poster" 
             />
           </div>
@@ -35,10 +41,9 @@ function About() {
         </div>
 
         <div className="bg-white p-8 rounded-lg shadow-md">
-          <h2 className="text-2xl font-semibold">Blood Type Compatibility</h2>
           <div className="flex justify-center">
             <img 
-              // src={bloodTypeChart} // Ensure this is the correct path to your chart image
+              src={bloodTypeChart} 
               alt="Blood Type Compatibility" 
               className="w-full max-w-lg h-auto object-contain"
             />
@@ -46,6 +51,9 @@ function About() {
         </div>
       </div>
     </div>
+   
+    </>
+    
   );
 }
 

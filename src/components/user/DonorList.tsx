@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import Header from './header/Header';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
 
 interface User {
     _id?: string;
@@ -14,6 +16,7 @@ interface User {
 
 function DonorList() {
     const [users, setUsers] = useState<User[]>([]);
+    const { currentUser } = useSelector((state: any) => state.user);
     const [searchTerm, setSearchTerm] = useState('');
     const [filterCriteria, setFilterCriteria] = useState<User>({
         bloodGroup: '',
@@ -21,7 +24,7 @@ function DonorList() {
     });
 
     const navigate = useNavigate();
-    const isLoggedIn = true; 
+    const isLoggedIn = true;
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -36,7 +39,7 @@ function DonorList() {
         fetchUsers();
     }, []);
 
-    const filteredUsers = users.filter(user => {
+    const filteredUsers = (users ?? []).filter(user => {
         const searchLower = searchTerm.toLowerCase();
         return (
             (filterCriteria.bloodGroup ? user.bloodGroup === filterCriteria.bloodGroup : true) &&
@@ -58,6 +61,29 @@ function DonorList() {
             navigate('/login');
         }
     };
+
+    const handleChatClick = async (userId?: string) => {
+        if (userId) {
+            try {
+                const token = currentUser
+                const response = await axios.post(
+                    '/api/chat/create-chat',
+                    { userId },
+                    {
+                      headers: {
+                        Authorization: `Bearer ${token}`
+                      }
+                    }
+                  );
+                const chat = response.data;
+                navigate(`/chat/${chat._id}`);
+            } catch (error) {
+                console.error("Error creating chat:", error);
+            }
+        } else {
+            console.log("User id is missing")
+        }
+    }
 
     return (
         <div>
@@ -131,8 +157,8 @@ function DonorList() {
                         Donors List
                     </h2>
                 </div>
-                {filteredUsers.map((user) => (
-                    <div className="flex justify-center" key={user._id}>
+                {(filteredUsers ?? []).map((user) => (
+                    <div className="flex justify-center" key={user._id ?? 'undefined'}>
                         <div className="w-full bg-white rounded-xl shadow p-4 m-5">
                             <h3 className="text-xl font-semibold mb-2">{user.name}</h3>
                             <p>Blood Group: {user.bloodGroup}</p>
@@ -141,16 +167,18 @@ function DonorList() {
                                 Status: {user.isActive ? 'Active' : 'Inactive'}
                             </p>
                             <div className="flex justify-end space-x-2">
-                                <button className="bg-green-600 hover:bg-green-900 text-white font-bold py-2 px-4 rounded-lg">
+                                <button onClick={() => handleChatClick(user._id)} className="bg-green-600 hover:bg-green-900 text-white font-bold py-2 px-4 rounded-lg">
                                     Chat
                                 </button>
+
+
                                 <button className="bg-green-600 hover:bg-green-900 text-white font-bold py-2 px-4 rounded-lg">
                                     Call
                                 </button>
                             </div>
                             <button
                                 className="bg-gradient-to-r from-red-700 via-red-600 to-red-500 hover:bg-red-800 text-white font-bold py-2 px-4 rounded-lg mt-2"
-                                onClick={() => handleScheduleDonation(user._id!)}
+                                onClick={() => handleScheduleDonation(user._id)}
                             >
                                 Schedule Donation
                             </button>

@@ -160,22 +160,27 @@ function Poster() {
       </div>
 
       <div className="mt-4">
-        <h2 className="text-xl font-semibold mb-2">Uploaded Posters</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {posters.map((poster, index) => (
-            <div key={index} className="bg-gray-100 p-4 rounded-lg shadow-sm">
-              <h2 className="text-lg font-semibold mb-2">{poster.title}</h2>
-              <img src={poster.url} alt={poster.title} className="w-full h-auto rounded-lg" />
-              <button
-                onClick={() => confirmDelete(poster.fullPath)}
-                className="text-red-600 hover:underline"
-              >
-                Delete
-              </button>
-            </div>
-          ))}
-        </div>
+  <h2 className="text-xl font-semibold mb-2">Uploaded Posters</h2>
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">  {/* Adjust grid to show 4 columns on larger screens */}
+    {posters.map((poster, index) => (
+      <div key={index} className="bg-gray-100 p-4 rounded-lg shadow-sm">
+        <h2 className="text-lg font-semibold mb-2">{poster.title}</h2>
+        <img
+          src={poster.url}
+          alt={poster.title}
+          className="w-full h-40 object-cover rounded-lg"  // Set a fixed height and maintain aspect ratio
+        />
+        <button
+          onClick={() => confirmDelete(poster.fullPath)}
+          className="text-red-600 hover:underline"
+        >
+          Delete
+        </button>
       </div>
+    ))}
+  </div>
+</div>
+
     </div>
   );
 }

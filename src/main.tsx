@@ -20,8 +20,10 @@ import RecipientListPage from './pages/RecipientListPage.tsx'
 import PosterPage from './pages/PosterPage.tsx'
 import AboutPage from './pages/AboutPage.tsx'
 import Schedule from './components/user/Schedule.tsx'
-import ScheduleResponse from './components/user/ScheduleResponse.tsx'
+
 import Response from './components/user/Response.tsx'
+import Chat from './components/user/Chat.tsx'
+
 
 
 
@@ -38,7 +40,7 @@ const router = createBrowserRouter(
       <Route index={true} path='/editProfile' element={ <EditProfile />}/>
       <Route index={true} path='/search_donor' element={ <DonorList />}/>
       <Route index={true} path='/schedule-donation/:userId' element={ <Schedule />}/>
-      <Route path="/schedule-confirmation" element={<ScheduleResponse />} />
+      <Route index={true} path='/chat/:userId' element={ <Chat />}/>
       <Route path="/schedule-response" element={<Response />} />
 
       {/* Admin Routes */}

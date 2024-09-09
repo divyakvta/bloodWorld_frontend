@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
@@ -14,9 +14,22 @@ const Schedule: React.FC = () => {
     const navigate = useNavigate();
     const { userId } = useParams<{ userId: string }>();
     const { currentUser } = useSelector((state: any)=> state.user);
+    
+
+    useEffect(() => {
+        if (!currentUser || !currentUser._id) {
+            alert('You can send mail to donor only after registration.');  
+            navigate('/search_donor');
+        }
+    }, [currentUser, navigate]);
+
+    if (!currentUser || !currentUser._id) {
+        return null;
+    }
+
     const protocol = window.location.protocol;
     const host = window.location.host;
-    const link = `${protocol}//${host}/schedule-confirmation?rec=${currentUser._id}&don=${userId}&date=${date}`;
+    const link = `${protocol}//${host}/schedule-response?rec=${currentUser._id}&don=${userId}&date=${date}`;
 
     const handleSubmit = async () => {
         try {

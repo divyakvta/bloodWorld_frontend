@@ -1,7 +1,46 @@
+
+import { useEffect, useState } from 'react';
 import heroImage from '/src/assets/hero2.jpeg'
-import poster1 from '/src/assets/poster3.jpg'
+import { getDownloadURL, getMetadata, listAll, ListResult, ref } from 'firebase/storage';
+import { Carousel } from 'react-responsive-carousel';
+import { storage } from '../../firebase/firebase';
+// import poster1 from '/src/assets/poster3.jpg'
+
+
+interface Poster {
+  title: string;
+  url: string;
+  fullPath: string;
+}
 
 function Hero() {
+
+  const [posters, setPosters] = useState<Poster[]>([]);
+
+  useEffect(() => {
+    const fetchPosters = async () => {
+      try {
+        const postersRef = ref(storage, 'posters/');
+        const result: ListResult = await listAll(postersRef);
+        const fetchedPosters = await Promise.all(
+          result.items.map(async (itemRef) => {
+            const downloadURL = await getDownloadURL(itemRef);
+            const metadata = await getMetadata(itemRef);
+            const posterTitle = metadata.customMetadata?.title || 'Untitled';
+            return { title: posterTitle, url: downloadURL, fullPath: itemRef.fullPath };
+          })
+        );
+        setPosters(fetchedPosters);
+      } catch (error) {
+        console.error('Error fetching posters:', error);
+      }
+    };
+
+    fetchPosters();
+  }, []);
+
+  
+
   return (
     <>
       <div className="container mx-5 relative bg-white text-black  md:px-8 lg:px-16 xl:px-32 flex items-center">
@@ -45,13 +84,34 @@ function Hero() {
   
 </div>
 
-  <div className="w-full md:w-1/2 flex justify-center md:justify-end mt-10 md:mt-0">
-    <img
-      src={poster1}
-      alt="poster"
-      className="w-full md:w-auto h-auto max-w-full"
-    />
-  </div>
+<div className="w-1/3 md:w-1/3 flex justify-center md:justify-end ml-16 mt-10 md:mt-0">
+  {posters.length > 0 ? (
+    <Carousel 
+      showThumbs={false} 
+      showStatus={false} 
+      autoPlay 
+      infiniteLoop 
+      className="rounded-lg shadow-lg overflow-hidden"
+      interval={5000}  
+      transitionTime={600} 
+      showArrows={true} 
+      stopOnHover={true}  
+    >
+      {posters.map((poster, index) => (
+        <div key={index} className="relative h-64 flex items-center justify-center bg-black">
+          <img 
+            src={poster.url} 
+            alt={poster.title} 
+            className="object-cover h-full rounded-lg opacity-90 hover:opacity-100 transition-opacity duration-500 ease-in-out"
+          />
+        </div>
+      ))}
+    </Carousel>
+  ) : (
+    <p>No posters available</p>
+  )}
+</div>
+
 </div>
 
     </>
